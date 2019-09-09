@@ -1,21 +1,48 @@
-top = int(input("Enter the maximum number you'd like to test:"))
-a = str(input("Would you like to use Fizz? (y/n)"))
-b = str(input("Would you like to use Buzz? (y/n)"))
-c = str(input("Would you like to use Bang? (y/n)"))
-d = str(input("Would you like to use Bong? (y/n)"))
-e = str(input("Would you like to use Fezz? (y/n)"))
-f = str(input("Would you like to use Reverse? (y/n)"))
+def num_check(prompt):  # defining a function to check is a number is valid
+    while True:
+        try:
+            num = int(input(prompt))  # user inputs a value for a number
+        except ValueError:  # if what they input isnt a number, the user gets the message below and must retry
+            print("Sorry, I didn't understand that.")
+            continue
+        else:
+            break  # when the user inputs a number, they can move on and escape the loop
+    return num
 
 
-def swap(li_st, pos1, pos2):
+def validity(prompt):  # checks validity of user inputs where a y or n answer is needed
+    while True:
+        ans = str(input(prompt))  # user inputs a string value
+        if ans == "y":
+            break  # if user inputs y or n as required, they continue outside of the loop
+        if ans == "n":
+            break
+        else:
+            print("Sorry. That input is invalid.")  # if the input is not y or n, they have to try again
+            continue
+    return ans
+
+
+top = int(num_check("Enter the maximum number you'd like to test:\n"))  # user input for maximum range value
+a = str(validity("Would you like to use Fizz? (y/n)\n"))  # user options for which rules to use. Fizz checks if a
+# number is a multiple of 3
+b = str(validity("Would you like to use Buzz? (y/n)\n"))  # checks if its a multiple of 5
+c = str(validity("Would you like to use Bang? (y/n)\n"))  # checks if its a multiple of 7
+d = str(validity("Would you like to use Bong? (y/n)\n"))  # checks if its a multiple of 11
+e = str(validity("Would you like to use Fezz? (y/n)\n"))  # checks if its a multiple of 13
+f = str(validity("Would you like to use Reverse? (y/n)\n"))  # checks if its a multiple of 17
+
+
+def swap(li_st, pos1, pos2):  # defining a function that swaps the positions of 2 items in a list
     li_st[pos1], li_st[pos2] = li_st[pos2], li_st[pos1]
     return li_st
 
 
-for x in range(1, top + 1):
-    item = []
+for x in range(1, top + 1):  # initiate a loop
+    item = []  # each item (number of word in the sequence) is formatted as a type list, allowing for multiple
+    # separate words to appear for each number in the sequence (say if a number is divisible by 3 and 5)
     if x % 3 == 0 and "y" in a:
-        item.append("Fizz")
+        item.append("Fizz")  # appending items to each list item in the sequence if option is selected
     if x % 5 == 0 and "y" in b:
         item.append("Buzz")
     if x % 7 == 0 and "y" in c:
@@ -25,11 +52,12 @@ for x in range(1, top + 1):
     if x % 13 == 0 and "y" in e:
         item.append("Fezz")
         if "B" in item[0]:
-            swap(item, 0, 1)
+            swap(item, 0, 1)  # if a number is divisible by 13, the word Fezz must come before all other words
+            # starting with B
     if x % 17 == 0 and "y" in f and len(item) > 1:
-        swap(item, 0, 1)
+        swap(item, 0, 1)  # if a number is divisible by 17, it swaps the order of all the words for each number
 
     if len(item) == 0:
-        item.append(str(x))
+        item.append(str(x))  # if a number is not divisible by 3,5,11,13 or 17 then it just prints the number
 
-    print(*item)
+    print("".join(item))  # formats the printing in a nice-looking way
