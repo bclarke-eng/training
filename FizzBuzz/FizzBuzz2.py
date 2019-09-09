@@ -4,23 +4,32 @@ b = str(input("Would you like to use Buzz? (y/n)"))
 c = str(input("Would you like to use Bang? (y/n)"))
 d = str(input("Would you like to use Bong? (y/n)"))
 e = str(input("Would you like to use Fezz? (y/n)"))
+f = str(input("Would you like to use Reverse? (y/n)"))
 
-for x in range(1, top+1):
-    string = ""
+
+def swap(li_st, pos1, pos2):
+    li_st[pos1], li_st[pos2] = li_st[pos2], li_st[pos1]
+    return li_st
+
+
+for x in range(1, top + 1):
+    item = []
     if x % 3 == 0 and "y" in a:
-        string = string + "Fizz"
+        item.append("Fizz")
     if x % 5 == 0 and "y" in b:
-        string = string + "Buzz"
+        item.append("Buzz")
     if x % 7 == 0 and "y" in c:
-        string = string + "Bang"
+        item.append("Bang")
     if x % 11 == 0 and "y" in d:
-        string = "Bong"
+        item.append("Bong")
     if x % 13 == 0 and "y" in e:
-        if "B" in string:
-            string = "Fezz" + string
-        else:
-            string = string + "Fezz"
+        item.append("Fezz")
+        if "B" in item[0]:
+            swap(item, 0, 1)
+    if x % 17 == 0 and "y" in f and len(item) > 1:
+        swap(item, 0, 1)
 
-    else:
-        string = string + str(x)
-    print(string)
+    if len(item) == 0:
+        item.append(str(x))
+
+    print(*item)
