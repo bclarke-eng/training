@@ -1,13 +1,9 @@
-def fizz_buzz():
-    for x in range(1, 100):
+for x in range(1, 100):
         if x % 3 == 0 and x % 5 == 0:
-            return "Fizzbuzz"
+            print("Fizzbuzz")
         elif x % 3 == 0:
-            return "Fizz"
+            print("Fizz")
         elif x % 5 == 0:
-            return "Buzz"
+            print("Buzz")
         else:
-            return x
-
-
-print(fizz_buzz())
+            print(x)
