@@ -31,9 +31,10 @@ def display_options():
     d = str(validity("Would you like to use Bong? (y/n)\n"))  # checks if its a multiple of 11
     e = str(validity("Would you like to use Fezz? (y/n)\n"))  # checks if its a multiple of 13
     f = str(validity("Would you like to use Reverse? (y/n)\n"))  # checks if its a multiple of 17
+    h = str(validity("Would you like to use Splash?(y/n)\n")) # checks if its a multiple of 2
     g = str(validity("Would you like to set your own word for a number? (y/n)\n"))
 
-    return top, a, b, c, d, e, f, g
+    return top, a, b, c, d, e, f, g, h
 
 
 def swap(li_st, pos1, pos2):  # defining a function that swaps the positions of 2 items in a list
@@ -42,21 +43,27 @@ def swap(li_st, pos1, pos2):  # defining a function that swaps the positions of 
 
 
 def add_user_rule(g):
-    user_number = int(num_check("What number would you like to add a word for?"))
-    user_word = input("Please select a word to attach the the number " + str(user_number) + ":")
-
     if "y" in g:
-        return user_number, user_word
+        while True:
+            user_number = int(num_check("What number would you like to add a word for?"))
+            if user_number == 2 or user_number == 3 or user_number == 5 or user_number == 7 or user_number == 11 or user_number == 13 or user_number == 17:
+                print("Sorry. That number already has a rule assigned to it. Please enter a different number: ")
+                continue
+            else:
+                user_word = input("Please select a word to attach the the number " + str(user_number) + ":")
+                return user_number, user_word
 
 
 def produce_sequence():
-    top, a, b, c, d, e, f, g = display_options()
+    top, a, b, c, d, e, f, g, h = display_options()
 
     user_number, user_word = add_user_rule(g)
 
     for x in range(1, top + 1):  # initiate a loop
-        item = []  # each item (number of word in the sequence) is formatted as a type list, allowing for multiple
+        item = []  # each item (number of words in the sequence) is formatted as a type list, allowing for multiple
         # separate words to appear for each number in the sequence (say if a number is divisible by 3 and 5)
+        if x % 2 == 0 and "y" in h:
+            item.append("Splash")
         if x % 3 == 0 and "y" in a:
             item.append("Fizz")  # appending items to each list item in the sequence if option is selected
         if x % 5 == 0 and "y" in b:
