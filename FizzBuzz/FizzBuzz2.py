@@ -6,8 +6,7 @@ def num_check(prompt):  # defining a function to check is a number is valid
             print("Sorry, I didn't understand that.")
             continue
         else:
-            break  # when the user inputs a number, they can move on and escape the loop
-    return num
+            return num
 
 
 def validity(prompt):  # checks validity of user inputs where a y or n answer is needed
@@ -23,14 +22,18 @@ def validity(prompt):  # checks validity of user inputs where a y or n answer is
     return ans
 
 
-top = int(num_check("Enter the maximum number you'd like to test:\n"))  # user input for maximum range value
-a = str(validity("Would you like to use Fizz? (y/n)\n"))  # user options for which rules to use. Fizz checks if a
-# number is a multiple of 3
-b = str(validity("Would you like to use Buzz? (y/n)\n"))  # checks if its a multiple of 5
-c = str(validity("Would you like to use Bang? (y/n)\n"))  # checks if its a multiple of 7
-d = str(validity("Would you like to use Bong? (y/n)\n"))  # checks if its a multiple of 11
-e = str(validity("Would you like to use Fezz? (y/n)\n"))  # checks if its a multiple of 13
-f = str(validity("Would you like to use Reverse? (y/n)\n"))  # checks if its a multiple of 17
+def display_options():
+    top = int(num_check("Enter the maximum number you'd like to test:\n"))  # user input for maximum range value
+    a = str(validity("Would you like to use Fizz? (y/n)\n"))  # user options for which rules to use. Fizz checks if a
+    # number is a multiple of 3
+    b = str(validity("Would you like to use Buzz? (y/n)\n"))  # checks if its a multiple of 5
+    c = str(validity("Would you like to use Bang? (y/n)\n"))  # checks if its a multiple of 7
+    d = str(validity("Would you like to use Bong? (y/n)\n"))  # checks if its a multiple of 11
+    e = str(validity("Would you like to use Fezz? (y/n)\n"))  # checks if its a multiple of 13
+    f = str(validity("Would you like to use Reverse? (y/n)\n"))  # checks if its a multiple of 17
+    g = str(validity("Would you like to set your own word for a number? (y/n)\n"))
+
+    return top, a, b, c, d, e, f, g
 
 
 def swap(li_st, pos1, pos2):  # defining a function that swaps the positions of 2 items in a list
@@ -38,26 +41,44 @@ def swap(li_st, pos1, pos2):  # defining a function that swaps the positions of 
     return li_st
 
 
-for x in range(1, top + 1):  # initiate a loop
-    item = []  # each item (number of word in the sequence) is formatted as a type list, allowing for multiple
-    # separate words to appear for each number in the sequence (say if a number is divisible by 3 and 5)
-    if x % 3 == 0 and "y" in a:
-        item.append("Fizz")  # appending items to each list item in the sequence if option is selected
-    if x % 5 == 0 and "y" in b:
-        item.append("Buzz")
-    if x % 7 == 0 and "y" in c:
-        item.append("Bang")
-    if x % 11 == 0 and "y" in d:
-        item.append("Bong")
-    if x % 13 == 0 and "y" in e:
-        item.append("Fezz")
-        if "B" in item[0]:
-            swap(item, 0, 1)  # if a number is divisible by 13, the word Fezz must come before all other words
-            # starting with B
-    if x % 17 == 0 and "y" in f and len(item) > 1:
-        swap(item, 0, 1)  # if a number is divisible by 17, it swaps the order of all the words for each number
+def add_user_rule(g):
+    user_number = int(num_check("What number would you like to add a word for?"))
+    user_word = input("Please select a word to attach the the number " + str(user_number) + ":")
 
-    if len(item) == 0:
-        item.append(str(x))  # if a number is not divisible by 3,5,11,13 or 17 then it just prints the number
+    if "y" in g:
+        return user_number, user_word
 
-    print("".join(item))  # formats the printing in a nice-looking way
+
+def produce_sequence():
+    top, a, b, c, d, e, f, g = display_options()
+
+    user_number, user_word = add_user_rule(g)
+
+    for x in range(1, top + 1):  # initiate a loop
+        item = []  # each item (number of word in the sequence) is formatted as a type list, allowing for multiple
+        # separate words to appear for each number in the sequence (say if a number is divisible by 3 and 5)
+        if x % 3 == 0 and "y" in a:
+            item.append("Fizz")  # appending items to each list item in the sequence if option is selected
+        if x % 5 == 0 and "y" in b:
+            item.append("Buzz")
+        if x % 7 == 0 and "y" in c:
+            item.append("Bang")
+        if x % 11 == 0 and "y" in d:
+            item.append("Bong")
+        if user_number is not None and x % user_number == 0:
+            item.append(user_word)
+        if x % 13 == 0 and "y" in e:
+            item.append("Fezz")
+            if "B" in item[0]:
+                swap(item, 0, 1)  # if a number is divisible by 13, the word Fezz must come before all other words
+                # starting with B
+        if x % 17 == 0 and "y" in f and len(item) > 1:
+            swap(item, 0, 1)  # if a number is divisible by 17, it swaps the order of all the words for each number
+
+        if len(item) == 0:
+            item.append(str(x))  # if a number is not divisible by 3,5,11,13 or 17 then it just prints the number
+
+        print("".join(item))  # formats the printing in a nice-looking way
+
+
+produce_sequence()
